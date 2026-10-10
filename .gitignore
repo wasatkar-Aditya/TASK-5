@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+
+# Environment-specific configuration and credentials
+.env
+.env.*
+!.env.example
+
+# Generated builds and logs
+dist/
+build/
+coverage/
+*.log
+npm-debug.log*
+
+# Local MongoDB data
+data/db/
+
+# Editor and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
