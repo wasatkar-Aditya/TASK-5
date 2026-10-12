@@ -9,7 +9,7 @@ The React interface is automatically deployed on every push to `main`:
 - **Live site:** https://wasatkar-Aditya.github.io/TASK-5/
 - **Deployment workflow:** [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml)
 
-GitHub Pages hosts static files only. The Express API and MongoDB database must be deployed separately (for example, an API host plus MongoDB Atlas), then the API URL should be supplied as `VITE_API_URL` during the frontend build.
+GitHub Pages hosts static files only. To keep the live site fully usable, it automatically saves tasks in the visitor's browser when no `VITE_API_URL` is configured. Tasks persist after refresh on that browser, but are not shared between devices. To use the Express API and MongoDB database instead, deploy them separately (for example, an API host plus MongoDB Atlas), then provide the public API URL as `VITE_API_URL` during the frontend build.
 
 ---
 

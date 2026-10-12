@@ -1,7 +1,13 @@
 import axios from 'axios';
+import { localTaskApi } from './localTaskApi';
 
-// Configurable base URL from environment variable or default fallback
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+// A configured URL uses the Express/MongoDB API. GitHub Pages has no server runtime,
+// so production builds with no URL use browser storage instead of requesting localhost.
+const configuredApiUrl = import.meta.env.VITE_API_URL?.trim();
+export const isLocalStorageMode =
+  import.meta.env.VITE_TASK_STORAGE === 'local' ||
+  (!configuredApiUrl && import.meta.env.PROD);
+const API_BASE_URL = configuredApiUrl || 'http://localhost:5000/api';
 
 // Create configured axios instance
 const apiClient = axios.create({
@@ -34,6 +40,7 @@ export const taskApi = {
    * Fetch all tasks with optional filters (status, priority, search)
    */
   async getTasks(params = {}) {
+    if (isLocalStorageMode) return localTaskApi.getTasks(params);
     const response = await apiClient.get('/tasks', { params });
     return response.data;
   },
@@ -42,6 +49,7 @@ export const taskApi = {
    * Fetch a single task by ID
    */
   async getTaskById(id) {
+    if (isLocalStorageMode) return localTaskApi.getTask(id);
     const response = await apiClient.get(`/tasks/${id}`);
     return response.data;
   },
@@ -50,6 +58,7 @@ export const taskApi = {
    * Create a new task
    */
   async createTask(taskData) {
+    if (isLocalStorageMode) return localTaskApi.createTask(taskData);
     const response = await apiClient.post('/tasks', taskData);
     return response.data;
   },
@@ -58,6 +67,7 @@ export const taskApi = {
    * Update an existing task by ID
    */
   async updateTask(id, taskData) {
+    if (isLocalStorageMode) return localTaskApi.updateTask(id, taskData);
     const response = await apiClient.put(`/tasks/${id}`, taskData);
     return response.data;
   },
@@ -66,6 +76,7 @@ export const taskApi = {
    * Delete a task by ID
    */
   async deleteTask(id) {
+    if (isLocalStorageMode) return localTaskApi.deleteTask(id);
     const response = await apiClient.delete(`/tasks/${id}`);
     return response.data;
   },
@@ -74,6 +85,7 @@ export const taskApi = {
    * Check backend health status
    */
   async checkHealth() {
+    if (isLocalStorageMode) return localTaskApi.checkHealth();
     const response = await apiClient.get('/health');
     return response.data;
   }

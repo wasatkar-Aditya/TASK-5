@@ -6,7 +6,7 @@ import TaskList from './components/TaskList';
 import TaskFormModal from './components/TaskFormModal';
 import ConfirmModal from './components/ConfirmModal';
 import Toast from './components/Toast';
-import { taskApi, extractErrorMessage } from './api/taskApi';
+import { taskApi, extractErrorMessage, isLocalStorageMode } from './api/taskApi';
 
 export default function App() {
   // Main data states
@@ -217,6 +217,7 @@ export default function App() {
       <Navbar
         onOpenCreateModal={handleOpenCreateModal}
         isApiConnected={isApiConnected}
+        isLocalStorageMode={isLocalStorageMode}
       />
 
       <main className="app-container">

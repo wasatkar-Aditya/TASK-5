@@ -1,6 +1,17 @@
 import React from 'react';
 
-export default function Navbar({ onOpenCreateModal, isApiConnected }) {
+export default function Navbar({ onOpenCreateModal, isApiConnected, isLocalStorageMode }) {
+  const statusText = isLocalStorageMode
+    ? 'Saved in this browser'
+    : isApiConnected
+      ? 'API Connected :5000'
+      : 'API Offline';
+  const statusTitle = isLocalStorageMode
+    ? 'Tasks are saved in this browser. Configure VITE_API_URL to use a shared API.'
+    : isApiConnected
+      ? 'Connected to Express & MongoDB on Port 5000'
+      : 'Backend is unreachable';
+
   return (
     <header className="navbar">
       <div className="navbar-inner">
@@ -15,10 +26,10 @@ export default function Navbar({ onOpenCreateModal, isApiConnected }) {
         <div className="navbar-actions">
           <div
             className={`api-status-badge ${isApiConnected ? 'online' : 'offline'}`}
-            title={isApiConnected ? 'Connected to Express & MongoDB on Port 5000' : 'Backend is unreachable'}
+            title={statusTitle}
           >
             <span className="status-dot"></span>
-            <span>{isApiConnected ? 'API Connected :5000' : 'API Offline'}</span>
+            <span>{statusText}</span>
           </div>
 
           <button
